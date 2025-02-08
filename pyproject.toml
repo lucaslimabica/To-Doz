@@ -1,0 +1,40 @@
+[project]
+name = "to-doz"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Tiger", email = "delimabica@gmail.com" }
+]
+dependencies = [
+  "flet==0.26.0"
+]
+
+[tool.flet]
+# Indigo Software.
+# IndigoSoftCounter
+
+# project display name that is used as an app title on Android and iOS home screens,
+# shown in window titles and about app dialogs on desktop.
+product = "To-Doz"
+
+# company name to display in about app dialogs
+company = "Indigo Software"
+
+# copyright text to display in about app dialogs
+copyright = "Copyright (C) 2025 by Indigo Software"
+
+[tool.flet.app]
+path = "src"
+
+[tool.uv]
+dev-dependencies = [
+    "flet[all]==0.26.0",
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+flet = {extras = ["all"], version = "0.26.0"}
