@@ -7,22 +7,23 @@ def main(page: ft.Page):
         page.update()
     
     page.title = "To-Doz" # Defining the app's UI
-    #page.add(
-    #    ft.Text(value="Make Your Day!"),
-    #)
-        
+    title = ft.Text(value="Make Your Day!")    
     new_task = ft.TextField(hint_text="What's need to be done?", expand=True) # The datafield to insert the tasks
+    insert_widget = ft.Row(
+            controls=[
+                new_task,
+                ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_button_clicked),
+            ],
+            expand=True,
+            spacing=10,
+        )
     tasks_views = ft.Column() # List of tasks
     
     view = ft.Column(
         width=600,
         controls=[
-            ft.Row(
-                controls=[
-                    new_task,
-                    ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_button_clicked),
-                ],
-            ),
+            title,
+            insert_widget,
             tasks_views,
         ],
     )
