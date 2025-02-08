@@ -2,18 +2,32 @@ import flet as ft
 
 def main(page: ft.Page):
     def add_button_clicked(e):
-        page.add(
-            ft.Checkbox(label=new_task.value)
-        )
+        tasks_views.controls.append(ft.Checkbox(label=new_task.value)) # Add a checkbox with the name from the 'new task' field
         new_task.value = ""
         page.update()
     
     page.title = "To-Doz" # Defining the app's UI
-    page.add(
-        ft.Text(value="Hello, World!"),
-    )
+    #page.add(
+    #    ft.Text(value="Make Your Day!"),
+    #)
         
-    new_task = ft.TextField(hint_text="What's need to be done?") # The datafield to insert the tasks
-    page.add(new_task, ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_button_clicked)) # Calling the 'page.add' for each new entry in 'new_task' field above
+    new_task = ft.TextField(hint_text="What's need to be done?", expand=True) # The datafield to insert the tasks
+    tasks_views = ft.Column() # List of tasks
+    
+    view = ft.Column(
+        width=600,
+        controls=[
+            ft.Row(
+                controls=[
+                    new_task,
+                    ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_button_clicked),
+                ],
+            ),
+            tasks_views,
+        ],
+    )
+    
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.add(view)
 
 ft.app(main)
