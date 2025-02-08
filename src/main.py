@@ -1,49 +1,34 @@
 import flet as ft
 
-
 def main(page: ft.Page):
-    counter = ft.Text("0", size=50, data=0) # Setting the var 'data' to storage the counter's value
-
-    def increment_click(e):
-        counter.data += 1
-        counter.value = str(counter.data)
-        counter.update()
-        
-    def decrease_click(e):
-        counter.data -= 1
-        counter.value = str(counter.data)
-        counter.update()
-
-    page.floating_action_button = ft.FloatingActionButton( # Adding to the 'page obj' the sum button 
-        icon=ft.Icons.ADD, on_click=increment_click
-    )
+    def add_button_clicked(e):
+        tasks_views.controls.append(ft.Checkbox(label=new_task.value)) # Add a checkbox with the name from the 'new task' field
+        new_task.value = ""
+        page.update()
     
-    #page.floating_action_button_2 = ft.FloatingActionButton(
-    #    icon=ft.Icons.AIRPLANEMODE_ON, on_click=decrease_click
-    #)
-    
-    minus_button = ft.ElevatedButton(
-        text="Minus",
-        on_click=decrease_click,
-        icon=ft.Icons.MINIMIZE
-    )
-    
-    page.add(
-        ft.SafeArea(
-            ft.Column(
-                [
-                    ft.Container(
-                        counter,
-                        alignment=ft.alignment.center,
-                    ),
-                    minus_button,
-                ],
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                expand=True,
-            ),
+    page.title = "To-Doz" # Defining the app's UI
+    title = ft.Text(value="Make Your Day!")    
+    new_task = ft.TextField(hint_text="What's need to be done?", expand=True) # The datafield to insert the tasks
+    insert_widget = ft.Row(
+            controls=[
+                new_task,
+                ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_button_clicked),
+            ],
             expand=True,
+            spacing=10,
         )
+    tasks_views = ft.Column() # List of tasks
+    
+    view = ft.Column(
+        width=600,
+        controls=[
+            title,
+            insert_widget,
+            tasks_views,
+        ],
     )
-
+    
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.add(view)
 
 ft.app(main)
