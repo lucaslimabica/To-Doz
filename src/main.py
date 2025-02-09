@@ -22,7 +22,7 @@ def main(page: ft.Page):
     
     # SETTING THE MAIN VIEW
     view = ft.Column(
-        width=600,
+        width=900,
         controls=[
             title,
             insert_widget,
