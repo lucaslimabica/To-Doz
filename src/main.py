@@ -17,7 +17,7 @@ class ToDozApp(ft.Column): # ihnerance
             ],
             expand=True,
         )
-        self.controls=[
+        self.controls=[ # there is no need to create a general view cause the app's class already is a Column view/display
             self.title,
             self.insert_widget,
             self.tasks_view,
@@ -28,6 +28,16 @@ class ToDozApp(ft.Column): # ihnerance
         self.new_task.value = "" # Cleaning the value
         self.new_task.hint_text = "More!" # making a hint
         self.update()
+        
+
+class Task(ft.Column):
+    def __init__(self, task_name, task_status):
+        super().__init__()
+        self.task_name = task_name
+        self.task_status = task_status
+        self.task_header = ft.Checkbox(value=False, label=self.task_name)
+        self.edit_name = ft.TextField(expand=1)
+
         
 def main(page: ft.Page):
     to_do_app = ToDozApp() # The instance
