@@ -1,37 +1,40 @@
 import flet as ft
 
-def main(page: ft.Page):
-    def add_button_clicked(e):
-        tasks_views.controls.append(ft.Checkbox(label=new_task.value)) # Add a checkbox with the name from the 'new task' field
-        new_task.value = ""
-        page.update()
-    
-    # SETTING THE APP'S CONTROLS 
-    page.title = "To-Doz" # App's name
-    title = ft.Text(value="Make Your Day!") # Tittle
-    new_task = ft.TextField(hint_text="What's need to be done?", expand=True) # The datafield to insert the tasks
-    insert_widget = ft.Row(
+
+class ToDozApp(ft.Column): # ihnerance
+    # The app is a big column with controls inside
+    def __init__(self):
+        super().__init__()
+        self.name = "To-Doz App"
+        self.title = ft.Text("Make Your Day!", size=30, weight="bold")
+        self.width = 900
+        self.new_task = ft.TextField(hint_text="What's need to be done?", expand=True) # Creation of tasks
+        self.tasks_view = ft.Column() # List of new tasks
+        self.insert_widget = ft.Row( # The 'input line' 
             controls=[
-                new_task,
-                ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_button_clicked), # The add button right by side of the textbar
+                self.new_task,
+                ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=self.add_task), # The add button right by side of the textbar
             ],
             expand=True,
-            spacing=10,
         )
-    tasks_views = ft.Column() # List of tasks
+        self.controls=[
+            self.title,
+            self.insert_widget,
+            self.tasks_view,
+        ]
     
-    # SETTING THE MAIN VIEW
-    view = ft.Column(
-        width=900,
-        controls=[
-            title,
-            insert_widget,
-            tasks_views,
-        ],
-    )
+    def add_task(self, e):
+        self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value)) # Adding to the task view column a new checkbox obj
+        self.new_task.value = "" # Cleaning the value
+        self.new_task.hint_text = "More!" # making a hint
+        self.update()
+        
+def main(page: ft.Page):
+    to_do_app = ToDozApp() # The instance
+    page.title = to_do_app.name
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.update()
     
-    # INSERTING THE VIEW
-    page.add(view)
-
+    page.add(to_do_app)
+    
 ft.app(main)
