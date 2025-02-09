@@ -24,20 +24,55 @@ class ToDozApp(ft.Column): # ihnerance
         ]
     
     def add_task(self, e):
-        self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value)) # Adding to the task view column a new checkbox obj
+        task = Task(self.new_task.value, self.delete_task)
+        self.tasks_view.controls.append(task)
         self.new_task.value = "" # Cleaning the value
         self.new_task.hint_text = "More!" # making a hint
         self.update()
         
+    def delete_task(self, task):
+        self.tasks_view.controls.remove(task)
+        self.update()
+        
 
 class Task(ft.Column):
-    def __init__(self, task_name, task_status):
+    def __init__(self, task_name, task_delete):
         super().__init__()
         self.task_name = task_name
-        self.task_status = task_status
+        self.task_delete = task_delete # The Apps func to delete a task :)
         self.task_header = ft.Checkbox(value=False, label=self.task_name)
         self.edit_name = ft.TextField(expand=1)
-
+        
+        self.header_view = ft.Row(
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                self.task_header,
+                ft.Row(
+                    spacing=0,
+                    controls=[
+                        ft.IconButton(
+                            icon=ft.Icons.CREATE_ROUNDED,
+                            tooltip="Edit Task",
+                            on_click=self.edit_clicked,
+                        ),
+                        ft.IconButton(
+                            icon=ft.Icons.DELETE_ROUNDED,
+                            tooltip="Delete Task",
+                            on_click=self.delete_clicked,
+                        ),
+                    ]
+                )
+            ]
+        )
+        
+        self.controls = [self.header_view]
+        
+    def delete_clicked(self, e): # When clicked calls the func of the app
+        self.task_delete(self)
+    
+    def edit_clicked(self, e):
+        pass
         
 def main(page: ft.Page):
     to_do_app = ToDozApp() # The instance
